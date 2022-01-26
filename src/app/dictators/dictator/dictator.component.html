@@ -1,0 +1,17 @@
+<div [style.background-color]="dictator.favoriteColorsRank[0].ToString()" [style.border-color]="dictator.favoriteColorsRank[1].ToString()" style="margin:10px 5px; padding: 4px; border: 3px solid;" [style.color]="dictator.favoriteColorsRank[2].ToString()">
+  <h3 [style.border-color]="dictator.favoriteColorsRank[1].ToString()" style="border-bottom: 2px solid;">{{dictator.name}}</h3>
+  <p>{{dictator.description}}</p>
+  <div class="row">
+    <img class="col-8" src="../../../assets/images/{{dictator.imageFile}}">
+    <ul class="col-4" style="text-align: left;">
+      <label style="font-weight: bold; border-bottom: black 1px solid;">Hobbies:</label>
+      <li *ngFor="let hobby of dictator.hobbies">{{hobby}}</li>
+    </ul>
+  </div>
+  <div class="row" style="margin-top: 10px;">
+    <div class="col-1"></div>
+    <button class="col-3 btn btn-success" (click)="Play()">Listen to Antheme</button>
+    <button class="col-3 btn btn-primary" style="margin-left: 15px;" (click)="Stop()">Stop Antheme</button>
+    <button class="col-3 btn-danger btn" style="margin-left:15px" (click)="Delete()" >Delete Dictator</button>
+  </div>
+</div>
