@@ -1,3 +1,4 @@
+import { DictatorsService } from './../../dictators.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Dictator } from '../../dictator.model';
@@ -12,7 +13,7 @@ export class DictatorCreationComponent implements OnInit {
 
   dicForm: FormGroup;
 
-  constructor() { }
+  constructor(private dickServ: DictatorsService) { }
 
   ngOnInit(): void {
     this.dicForm = new FormGroup({
@@ -44,8 +45,6 @@ export class DictatorCreationComponent implements OnInit {
       imageFile: new FormControl(null, [Validators.required]),
       anthemeFile: new FormControl(null, [Validators.required])
     });
-
-    console.log(this.dicForm);
   }
 
   AddHobby(){
@@ -68,11 +67,14 @@ export class DictatorCreationComponent implements OnInit {
         (<Color>this.dicForm.get('favoriteColorsRank.tertiary').value)
         // Ideally, I'll convert primary, secondary and tertiary into formArray again, and do like <Color[]> for favoriteColorsRank alone.
       ],
+      // (<Color[]>this.dicForm.get('favoriteColorsRank').value),
       this.dicForm.get('imageFile').value,
       this.dicForm.get('anthemeFile').value
     );
-    console.log(dictator);
-    // Somehow save it to the API
+
+    this.dickServ.create(dictator).subscribe((dictator_: Dictator[]) => {
+      next: this.dickServ.dictators = dictator_;
+    });
   }
 
 }
