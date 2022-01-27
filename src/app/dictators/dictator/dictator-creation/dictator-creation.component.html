@@ -1,7 +1,125 @@
-<div class="text-white">
+<div class="text-white" style="background-color: rgba(0,0,0,0.25); border-radius: 8px; padding: 8px; margin-top: 8px;">
   <h3>Create your own dictator here!</h3>
-  <form>
+  <form [formGroup]="dicForm" (ngSubmit)="Submit()">
+    <div class="row">
+      <div class="form-group col-6">
+        <label for="name">Name</label>
+        <input type="text" id="name" formControlName="name" class="form-control">
+        <span *ngIf="!dicForm.get('name').valid && dicForm.get('name').touched" class="help-block text-danger">Name Required!</span>
+      </div>
+      <div class="form-group  col-6">
+        <label for="description">Description</label>
+        <input type="text" id="description" formControlName="description" class="form-control">
+        <span *ngIf="!dicForm.get('description').valid && dicForm.get('description').touched" class="help-block text-danger">Description Required!</span>
+      </div>
+    </div>
 
+
+    <div formArrayName="hobbies" style="border-top: 1px solid white; border-bottom:  1px solid white; padding: 3px; margin:5px 0px;">
+      <h4>Hobbies</h4>
+      <div class="row">
+        <div class="form-group col-4" *ngFor="let hobbyControl of GetHobbiesControls(); let i = index">
+          <input type="text" class="from-control" [formControlName]="i">
+        </div>
+      </div>
+
+      <button class="btn btn-primary" type="button" (click)="AddHobby()">Add Hobby</button>
+      <span *ngIf="!dicForm.get('hobbies').valid && dicForm.get('hobbies').touched" class="help-block text-danger">Please name all hobbies</span>
+    </div>
+
+
+    <div id="colors" formGroupName="favoriteColorsRank">
+      <style>
+        .colorInput{
+          padding: 2px;
+        }
+      </style>
+      <h4>Primary (background), Secondary (border), Tertiary (text) favorite Colors!</h4>
+      <div class="form-group" >
+        <div class="row">
+          <div class="col-1"></div>
+          <div class="col-3" formGroupName="primary" id="primary" style="border:2px white solid; box-sizing: border-box; padding-bottom: 5px; margin: 5px;">
+            <h4>Primary</h4>
+            <div class="row">
+              <div class="form-group col-3">
+                <label for="r">Red: </label>
+                <input type="number" id="r" formControlName="r" class="colorInput form-control">
+              </div>
+              <div class="form-group col-3">
+                <label for="g">Green: </label>
+                <input type="number" id="g" formControlName="g"  class="colorInput form-control">
+              </div>
+              <div class="form-group col-3">
+                <label for="b">Blue: </label>
+                <input type="number" id="b" formControlName="b"  class="colorInput form-control">
+              </div>
+              <div class="form-group col-3">
+                <label for="a">Alpha: </label>
+                <input type="number" id="a" formControlName="a"  class="colorInput form-control">
+              </div>
+            </div>
+          </div>
+          <div class="col-3" formGroupName="secondary" id="secondary" style="border:2px white solid; box-sizing: border-box; padding-bottom: 5px; margin: 5px;">
+            <h4>Secondary</h4>
+            <div class="row">
+              <div class="form-group col-3">
+                <label for="r">Red: </label>
+                <input type="number" id="r" formControlName="r" class="colorInput form-control">
+              </div>
+              <div class="form-group col-3">
+                <label for="g">Green: </label>
+                <input type="number" id="g" formControlName="g"  class="colorInput form-control">
+              </div>
+              <div class="form-group col-3">
+                <label for="b">Blue: </label>
+                <input type="number" id="b" formControlName="b"  class="colorInput form-control">
+              </div>
+              <div class="form-group col-3">
+                <label for="a">Alpha: </label>
+                <input type="number" id="a" formControlName="a"  class="colorInput form-control">
+              </div>
+            </div>
+          </div>
+          <div class="col-3" formGroupName="tertiary" id="tertiary" style="border:2px white solid; box-sizing: border-box; padding-bottom: 5px; margin: 5px;">
+            <h4>Tertiary</h4>
+            <div class="row">
+              <div class="form-group col-3">
+                <label for="r">Red: </label>
+                <input type="number" id="r" formControlName="r" class="colorInput form-control">
+              </div>
+              <div class="form-group col-3">
+                <label for="g">Green: </label>
+                <input type="number" id="g" formControlName="g"  class="colorInput form-control">
+              </div>
+              <div class="form-group col-3">
+                <label for="b">Blue: </label>
+                <input type="number" id="b" formControlName="b"  class="colorInput form-control">
+              </div>
+              <div class="form-group col-3">
+                <label for="a">Alpha: </label>
+                <input type="number" id="a" formControlName="a"  class="colorInput form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="form-group col-6">
+        <label for="imageFile">Image File</label>
+        <input type="text" id="imageFile" formControlName="imageFile" class="form-control">
+        <span *ngIf="!dicForm.get('imageFile').valid && dicForm.get('imageFile').touched" class="help-block text-danger">Image file name Required!</span>
+      </div>
+      <div class="form-group col-6">
+        <label for="anthemeFile">Antheme File</label>
+        <input type="text" id="anthemeFile" formControlName="anthemeFile" class="form-control">
+        <span *ngIf="!dicForm.get('anthemeFile').valid && dicForm.get('anthemeFile').touched" class="help-block text-danger">Antheme file name Required!</span>
+      </div>
+    </div>
+
+    <button class="btn btn-success" type="submit" style="margin-top: 10px; font-weight: bold;">Add Dictator</button>
   </form>
 
 </div>

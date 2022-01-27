@@ -1,5 +1,5 @@
-import { Color } from './../color.model';
 import { Component, OnInit } from '@angular/core';
+import { Color } from '../color.model';
 import { Dictator } from './dictator.model';
 
 @Component({
