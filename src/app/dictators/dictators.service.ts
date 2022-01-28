@@ -15,12 +15,16 @@ export class DictatorsService {
     return this.http.get<Dictator[]>(this.connectionString + 'getDictators');
   }
 
-  create(dictator: any) {
-    console.log(<Dictator>dictator);
-    return this.http.post<any>(this.connectionString + 'create', dictator);
+  create(dictator: Dictator) {
+    return this.http.post<Dictator>(this.connectionString + 'create', dictator);
   }
 
-  getDictatorsArray(){
+  delete(i: number){
+    return this.http.delete<any>(this.connectionString + 'delete/' + i);
+  }
+
+  getDictatorsArray(): Dictator[]{
+    console.log(this.dictators);
     return this.dictators.slice();
   }
 }

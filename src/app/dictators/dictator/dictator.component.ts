@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { DictatorsService } from '../dictators.service';
 import { Dictator } from '../dictator.model';
+import { Color } from 'src/app/color.model';
 
 @Component({
   selector: 'app-dictator',
@@ -8,9 +10,10 @@ import { Dictator } from '../dictator.model';
 })
 export class DictatorComponent implements OnInit {
   @Input() dictator: Dictator;
+  @Input() i: number;
   audio = new Audio();
 
-  constructor() { }
+  constructor(private dickServ: DictatorsService) { }
 
   ngOnInit(): void {
     this.audio.src = '../../../assets/sounds/' + this.dictator.anthemeFile;
@@ -26,8 +29,13 @@ export class DictatorComponent implements OnInit {
 
   Delete(){
     this.Stop();
-    // ... somehow delete this dictator from the list of dictators.
-    alert("If only it were that easy!");
+    this.dickServ.delete(this.i).subscribe((dicData: Dictator) => {
+      next: this.dickServ.dictators.splice(this.i, 1);
+    });
+  }
+
+  GetColorString(color: Color){
+    return 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + color.a + ')';
   }
 
 }

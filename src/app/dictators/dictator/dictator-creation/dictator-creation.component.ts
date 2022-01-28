@@ -72,8 +72,8 @@ export class DictatorCreationComponent implements OnInit {
       this.dicForm.get('anthemeFile').value
     );
 
-    this.dickServ.create(dictator).subscribe((dictator_: Dictator[]) => {
-      next: this.dickServ.dictators = dictator_;
+    this.dickServ.create(dictator).subscribe((dictator_: Dictator) => {
+      next: this.dickServ.dictators.push(dictator_);
     });
   }
 

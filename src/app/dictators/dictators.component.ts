@@ -20,24 +20,21 @@ export class DictatorsComponent implements OnInit {
   constructor(private dickServ: DictatorsService) { }
 
   ngOnInit(): void {
-    if(this.dictators.length < 1){
-      for(let i = 0; i < this.placeholtators.length; i++){
-        console.log('Pushing ' + this.placeholtators[i].name + ' to DictatorsService!');
-        this.dickServ.create(this.placeholtators[i]).subscribe((dictator_: Dictator[]) => {
-          next: this.dickServ.dictators = dictator_;
-        });
-      }
-    }
-    else{
-      console.log(this.dictators.values());
-    }
-    this.dictators = this.dickServ.getDictatorsArray();
 
     this.dickServ.getAllDictators().subscribe((data: Dictator[]) => {
-      next: this.dictators = data;
+      next: this.dickServ.dictators = data;
+      complete: this.dictators = this.dickServ.getDictatorsArray();
     });
 
+  }
 
+  InsertPlaceHolderDictators(){
+    for(let i = 0; i < this.placeholtators.length; i++){
+      this.dickServ.create(this.placeholtators[i]).subscribe((dicData: Dictator) => {
+        next: this.dickServ.dictators.push(dicData);
+        complete: this.dictators = this.dickServ.getDictatorsArray();
+      });
+    }
   }
 
 }
