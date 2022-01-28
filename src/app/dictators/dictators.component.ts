@@ -23,7 +23,9 @@ export class DictatorsComponent implements OnInit {
     if(this.dictators.length < 1){
       for(let i = 0; i < this.placeholtators.length; i++){
         console.log('Pushing ' + this.placeholtators[i].name + ' to DictatorsService!');
-        this.dickServ.create(this.placeholtators[i]);
+        this.dickServ.create(this.placeholtators[i]).subscribe((dictator_: Dictator[]) => {
+          next: this.dickServ.dictators = dictator_;
+        });
       }
     }
     else{
