@@ -29,7 +29,7 @@ export class DictatorComponent implements OnInit {
 
   Delete(){
     this.Stop();
-    this.dickServ.delete(this.i).subscribe((dicData: Dictator) => {
+    this.dickServ.delete(this.i).subscribe(() => {
       next: this.dickServ.dictators.splice(this.i, 1);
     });
   }
