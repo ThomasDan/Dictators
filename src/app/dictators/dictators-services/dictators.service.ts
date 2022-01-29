@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { Dictator } from './dictator.model';
+import { Dictator } from '../dictator.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,6 @@ export class DictatorsService {
   }
 
   getDictatorsArray(): Dictator[]{
-    console.log(this.dictators);
     return this.dictators.slice();
   }
 }

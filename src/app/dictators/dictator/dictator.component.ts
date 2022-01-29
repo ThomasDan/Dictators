@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DictatorsService } from '../dictators.service';
 import { Dictator } from '../dictator.model';
 import { Color } from 'src/app/color.model';
+import { HandleDictatorsService } from '../dictators-services/handle-dictators.service';
 
 @Component({
   selector: 'app-dictator',
@@ -13,7 +13,7 @@ export class DictatorComponent implements OnInit {
   @Input() i: number;
   audio = new Audio();
 
-  constructor(private dickServ: DictatorsService) { }
+  constructor(private dickHandler: HandleDictatorsService) { }
 
   ngOnInit(): void {
     this.audio.src = '../../../assets/sounds/' + this.dictator.anthemeFile;
@@ -29,9 +29,7 @@ export class DictatorComponent implements OnInit {
 
   Delete(){
     this.Stop();
-    this.dickServ.delete(this.i).subscribe(() => {
-      next: this.dickServ.dictators.splice(this.i, 1);
-    });
+    this.dickHandler.deleteDictator(this.i);
   }
 
   GetColorString(color: Color){

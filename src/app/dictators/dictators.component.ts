@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Color } from '../color.model';
-import { DictatorsService } from './dictators.service';
+
 import { Dictator } from './dictator.model';
+import { Color } from '../color.model';
+import { HandleDictatorsService } from './dictators-services/handle-dictators.service';
 
 @Component({
   selector: 'app-dictators',
@@ -10,6 +11,8 @@ import { Dictator } from './dictator.model';
 })
 export class DictatorsComponent implements OnInit {
   dictators: Dictator[] = [];
+  dictatorsReady: boolean = false;
+
   placeholtators: Dictator[] = [
     new Dictator('Dicktator', 'DIck potatoe lol', ['being a dick','being a potatoe'], [new Color(255, 200, 200, 1), new Color(200, 125, 125, 1), new Color(75, 0, 0, 1)], 'dicktatoe.png', 'NaziMidi.mp3'),
     new Dictator('Dicktamatoe', 'Tomatoe Dick lolmao', ['being a tomatoe','being a dick'], [new Color(200, 255, 200, 1), new Color(125, 200, 125, 1), new Color(50, 50, 50, 1)], 'tomator.png', 'tomato.mp3'),
@@ -17,23 +20,33 @@ export class DictatorsComponent implements OnInit {
   ];
 
 
-  constructor(private dickServ: DictatorsService) { }
+  constructor(private dickHandler: HandleDictatorsService) {
+    this.dickHandler.dictators$.subscribe((apiDictators : Dictator[]) => {
+      next:
+        if(this.dictators.length != apiDictators.length){
+          this.dictators = apiDictators;
+        }
+    })
+
+    this.dickHandler.dictatorsReady$.subscribe((b: boolean) => {
+      this.dictatorsReady = b;
+      if(this.dictatorsReady){
+        console.log(this.dictators);
+      }
+    });
+   }
 
   ngOnInit(): void {
+    this.LoadDictators();
+  }
 
-    this.dickServ.getAllDictators().subscribe((data: Dictator[]) => {
-      next: this.dickServ.dictators = data;
-      complete: this.dictators = this.dickServ.getDictatorsArray();
-    });
-
+  LoadDictators(){
+    this.dickHandler.loadDictators();
   }
 
   InsertPlaceHolderDictators(){
     for(let i = 0; i < this.placeholtators.length; i++){
-      this.dickServ.create(this.placeholtators[i]).subscribe((dicData: Dictator) => {
-        next: this.dickServ.dictators.push(dicData);
-        complete: this.dictators = this.dickServ.getDictatorsArray();
-      });
+      this.dickHandler.createDictator(this.placeholtators[i]);
     }
   }
 

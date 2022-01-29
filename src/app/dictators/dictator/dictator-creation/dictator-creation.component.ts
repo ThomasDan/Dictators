@@ -1,8 +1,8 @@
-import { DictatorsService } from './../../dictators.service';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { Dictator } from '../../dictator.model';
 import { Color } from '../../../color.model';
+import { HandleDictatorsService } from '../../dictators-services/handle-dictators.service';
 
 @Component({
   selector: 'app-dictator-creation',
@@ -13,7 +13,7 @@ export class DictatorCreationComponent implements OnInit {
 
   dicForm: FormGroup;
 
-  constructor(private dickServ: DictatorsService) { }
+  constructor(private dickHandler: HandleDictatorsService) { }
 
   ngOnInit(): void {
     this.dicForm = new FormGroup({
@@ -72,9 +72,7 @@ export class DictatorCreationComponent implements OnInit {
       this.dicForm.get('anthemeFile').value
     );
 
-    this.dickServ.create(dictator).subscribe((dictator_: Dictator) => {
-      next: this.dickServ.dictators.push(dictator_);
-    });
+    this.dickHandler.createDictator(dictator);
   }
 
 }
